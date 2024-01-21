@@ -308,7 +308,7 @@ return {
         }
       })
 
-      vim.keymap.set('n', '<leader>e' , ':Neotree<CR> current', { })
-      vim.keymap.set('n', '<leader>pe', ':Neotree float<CR>', { })
+      vim.keymap.set('n', '<leader>E' , ':Neotree<CR> current', { })
+      vim.keymap.set('n', '<leader>e', ':Neotree float<CR>', { })
     end
 }

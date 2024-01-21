@@ -74,12 +74,12 @@ end
 
 -- floating window -------------------------------------------------------------
 
-float_window = {
+peak_window = {
     relative_height = 0.8,
     relative_width  = 0.8,
     handle          = nil,
     create = function()
-        if float_window.handle then
+        if peak_window.handle then
             print("Another float window is already opened!")
             return
         end
@@ -90,8 +90,8 @@ float_window = {
         local width = vim.api.nvim_get_option("columns")
         local height = vim.api.nvim_get_option("lines")
 
-        local win_height = math.ceil(height * float_window.relative_height - 4)
-        local win_width = math.ceil(width * float_window.relative_width)
+        local win_height = math.ceil(height * peak_window.relative_height - 4)
+        local win_width = math.ceil(width * peak_window.relative_width)
 
         local row = math.ceil((height - win_height) / 2 - 1)
         local col = math.ceil((width - win_width) / 2)
@@ -106,16 +106,19 @@ float_window = {
             border = "rounded",
         }
 
-        float_window.handle = vim.api.nvim_open_win(buf, true, opts)
+        peak_window.handle = vim.api.nvim_open_win(buf, true, opts)
     end,
     close = function()
-        if float_window.handle and float_window.handle == vim.api.nvim_get_current_win() then
-            vim.api.nvim_win_close(float_window.handle, false)
-            float_window.handle = nil
+        if peak_window.handle and peak_window.handle == vim.api.nvim_get_current_win() then
+            vim.api.nvim_win_close(peak_window.handle, false)
+            peak_window.handle = nil
         end
     end
 }
 
-vim.api.nvim_create_autocmd("WinLeave", { callback = float_window.close })
-vim.keymap.set('n', '<ESC>', float_window.close, { })
+vim.api.nvim_create_autocmd("WinLeave", { callback = peak_window.close })
+vim.keymap.set('n', '<ESC>', peak_window.close, { })
+vim.api.nvim_create_user_command('Peak', function(ctx) peak_window.create() end, {})
+
+
 

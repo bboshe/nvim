@@ -29,7 +29,16 @@ vim.keymap.set('n', win_prefix..'<C-r>', window_resize_mode   , {noremap = true,
 vim.keymap.set('n', win_prefix..'v'    , ':vertical new<CR>'  , { })
 vim.keymap.set('n', win_prefix..'s'    , ':horizontal new<CR>', { })
 
-vim.keymap.set('n', '<leader>pn', float_window.create, { })
+
+vim.keymap.set('n', '<leader>pn', 
+    peak_window.create, 
+    { })
+
+vim.keymap.set('n', '<leader>pt', function() 
+    peak_window.create()
+    vim.cmd(':term')
+    vim.api.nvim_feedkeys('i', 't', true)
+end, { })
 
 
 
