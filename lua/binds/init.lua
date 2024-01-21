@@ -9,6 +9,9 @@ vim.o.shiftwidth  = 4
 vim.o.softtabstop = 4
 vim.o.expandtab   = true
 
+vim.o.number         = true
+vim.o.relativenumber = true
+
 
 -- r       Automatically insert the current comment leader after hitting <Enter> in Insert mode.
 -- c       Auto-wrap comments using textwidth, inserting the current comment leader automatically.

@@ -31,7 +31,7 @@ end
 
 
 function resize_window(win, increase, horizontal)
-    local delta = (increase) and 1 or -1
+    local delta = 2 * ((increase) and 1 or -1)
     if horizontal then
         local old_width = vim.api.nvim_win_get_width(win)
         vim.api.nvim_win_set_width(win, old_width + delta)
