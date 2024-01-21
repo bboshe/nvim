@@ -4,8 +4,10 @@
 https://github.com/nvim-pack/nvim-spectre
 
 ### Autocomplete + Snippets
- [ ] point
 
+## File
+oil.vim
+https://www.youtube.com/watch?v=gihHLsClHF0
 
 ## Git
 https://www.youtube.com/watch?v=IyBAuDPzdFY
