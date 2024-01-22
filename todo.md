@@ -1,4 +1,6 @@
 ## Editor
+### Project management
+https://github.com/coffebar/neovim-project
 
 ### Project wide search and replace
 https://github.com/nvim-pack/nvim-spectre
@@ -6,7 +8,12 @@ https://github.com/nvim-pack/nvim-spectre
 ### Autocomplete + Snippets
 
 ### Header Line
-https://www.reddit.com/r/neovim/comments/s97tja/opening_an_existing_file_in_a_floating_window/
+https://www.reddit.com/r/neovim/comments/150g7rl/is_there_a_way_to_add_harpoon_marks_to/
+### Stuff
+* peak find files
+* peak explorer
+* grep current file only (telescope)
+
 
 ## File
 oil.vim
