@@ -3,7 +3,7 @@ return {
     version = "*", 
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
-        vim.opt.termguicolors = true,
+        vim.opt.termguicolors = true
         require("bufferline").setup({ options = {
             mode = "buffers", -- set to "tabs" to only show tabpages instead
             -- style_preset = bufferline.style_preset.default, -- or bufferline.style_preset.minimal,
@@ -101,6 +101,6 @@ return {
             --     -- add custom logic
             --     return buffer_a.modified > buffer_b.modified
             -- end
-        }   }
+        }   })
     end
 }
