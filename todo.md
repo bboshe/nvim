@@ -9,10 +9,14 @@ https://github.com/nvim-pack/nvim-spectre
 
 ### Header Line
 https://www.reddit.com/r/neovim/comments/150g7rl/is_there_a_way_to_add_harpoon_marks_to/
+
 ### Stuff
 * peak find files
 * peak explorer
 * grep current file only (telescope)
+* hilight word
+* script for aligning = signs
+* comment expand enter bug
 
 
 ## File

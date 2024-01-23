@@ -33,8 +33,17 @@ M.on_win_enter = function()
     M.print_ref_count()
 end
 
+M.on_buf_create = function()
+
+end
+
+M.on_buf_delete = function()
+end
+
 M.setup = function()
-    vim.api.nvim_create_autocmd("WinEnter", { callback = M.on_win_enter })
+    vim.api.nvim_create_autocmd("BufAdd"   , { callback = M.on_buf_create })
+    vim.api.nvim_create_autocmd("BufDelete", { callback = M.on_buf_delete })
+    vim.api.nvim_create_autocmd("BufEnter" , { callback = M.on_win_enter  })
 end
 
 M.setup()

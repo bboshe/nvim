@@ -16,8 +16,15 @@ vim.o.relativenumber = true
 -- r       Automatically insert the current comment leader after hitting <Enter> in Insert mode.
 -- c       Auto-wrap comments using textwidth, inserting the current comment leader automatically.
 -- o       Automatically insert the current comment leader after hitting 'o' or 'O' in Normal mode.
+-- someone must override this???
 vim.o.formatoptions = vim.o.formatoptions:gsub("r", ""):gsub("o", "")
 
+
+-- hilight current word
+-- vim.keymap.set('n', 'md', 'gd', { })
+
+vim.keymap.set('n', '<M-u>', '<C-u>', { })
+vim.keymap.set('n', '<M-d>', '<C-d>', { })
 
 
 -- Windows --------------------------------------------------------------------

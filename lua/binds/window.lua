@@ -1,6 +1,6 @@
 -- window resizing ------------------------------------------------------------
 
-function win_dims(window) 
+function win_dims(window)
     local y, x = unpack(vim.api.nvim_win_get_position(window))
     local w = vim.api.nvim_win_get_width(window)
     local h = vim.api.nvim_win_get_height(window)
@@ -13,12 +13,12 @@ function win_has_adjacent(window, direction)
     local ref_x, ref_y, ref_w, ref_h = win_dims(window)
     local all_wins = vim.api.nvim_tabpage_list_wins(0)
     for _, h_win in pairs(all_wins) do
-        local x, y, w, h = win_dims(h_win)
+        local x, y, _, _ = win_dims(h_win)
         if direction == 'right' then
             if ref_x + ref_w < x then
                 return true
             end
-        elseif direction == 'up' then 
+        elseif direction == 'up' then
             if ref_x == x and ref_y > y then
                 return true
             end
@@ -84,7 +84,7 @@ peak_window = {
             return
         end
 
-        buf = vim.api.nvim_create_buf(false, true)
+        local buf = vim.api.nvim_create_buf(false, true)
         vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
 
         local width = vim.api.nvim_get_option("columns")
@@ -118,7 +118,7 @@ peak_window = {
 
 vim.api.nvim_create_autocmd("WinLeave", { callback = peak_window.close })
 vim.keymap.set('n', '<ESC>', peak_window.close, { })
-vim.api.nvim_create_user_command('Peak', function(ctx) peak_window.create() end, {})
+vim.api.nvim_create_user_command('Peak', function() peak_window.create() end, {})
 
 
 
