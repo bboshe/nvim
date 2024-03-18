@@ -1,13 +1,13 @@
 return {
         "speer.nvim",
-        dev = true, 
+        dev = true,
         config = function ()
             require("speer").setup({})
         end,
         dependencies = {
             {
-    'akinsho/bufferline.nvim', 
-    version = "*", 
+    'akinsho/bufferline.nvim',
+    version = "*",
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
         vim.opt.termguicolors = true

@@ -1,25 +1,45 @@
 local M = {}
 
-
-M.file_ref_count = {}
 M.config = {
-    count = 3,
 }
 
 
-M.reset_ref_count = function()
-    M.file_ref_count = {}
-end
-
+M.file_refs = {}
 
 M.print_ref_count = function()
-    vim.notify(vim.inspect(M.file_ref_count))
---    for file, count in ipairs(M.file_ref_count) do 
---        print(file, count)
+    local message = { "Speer Buffers:\n" }
+    for i, ref in ipairs(M.file_refs) do
+        table.insert(message, string.format("% 4d %d : %s\n", ref.count, i, ref.file))
+    end
+    vim.notify(table.concat(message))
 end
 
-M.get_ref_count = function(buf_id)
-    return M.file_ref_count[vim.api.nvim_buf_get_name(buf_id)] or 0
+M.get_ref = function(file)
+    for i, ref in pairs(M.file_refs) do
+        if ref.file == file then
+            return i, ref
+        end
+    end
+    local ref = {file = file, count = 0}
+    table.insert(M.file_refs, ref)
+    return #M.file_refs, ref
+end
+
+M.remove_ref = function (file)
+    local i, _ = M.get_ref(file)
+    table.remove(M.file_refs, i)
+end
+
+M.add_ref = function(file)
+    local _, ref = M.get_ref(file)
+    ref.count = ref.count + 1
+    M.sort_refs()
+end
+
+M.sort_refs = function ()
+    table.sort(M.file_refs, function(left, right)
+        return left.count < right.count
+    end)
 end
 
 
@@ -36,11 +56,7 @@ M.on_buff_enter = function()
         return
     end
 
-    if M.file_ref_count[file] == nil then
-        M.file_ref_count[file] = 1
-    else
-        M.file_ref_count[file] = M.file_ref_count[file] + 1
-    end
+    M.add_ref(file)
 
     -- M.print_ref_count()
 end
@@ -49,7 +65,8 @@ M.on_buff_delete = function()
     local buf = vim.api.nvim_win_get_buf(0)
     local file = vim.api.nvim_buf_get_name(buf)
 
-    M.file_ref_count[file] = nil
+    print("delte fuffer ", file)
+    M.remove_ref(file)
 end
 
 
@@ -70,18 +87,21 @@ M.create_bufferline_config = function(config)
         config = {}
     end
 
-    config.custom_filter = function(buf_number, buf_numbers)
-        if M.file_ref_count[vim.api.nvim_buf_get_name(buf_number)] == nil then
-            return false
-        end
+    config.custom_filter = function(buf_number, _)
+        local file = vim.api.nvim_buf_get_name(buf_number)
 
-        -- TODO: filter max tab count
+        local _, ref = M.get_ref(file)
+        if ref.count == 0 then
+            return
+        end
 
         return true
     end
 
     config.sort_by = function(buffer_a, buffer_b)
-        return M.get_ref_count(buffer_a.id) > M.get_ref_count(buffer_b.id)
+        local _, refa = M.get_ref(buffer_a.path)
+        local _, refb = M.get_ref(buffer_b.path)
+        return refa.count > refb.count
     end
 
     return { options = config }
