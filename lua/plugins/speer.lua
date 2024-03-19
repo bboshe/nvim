@@ -16,7 +16,7 @@ return {
             -- style_preset = bufferline.style_preset.default, -- or bufferline.style_preset.minimal,
             -- themable = true | false, -- allows highlight groups to be overriden i.e. sets highlights as default
             -- numbers = "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
-            numbers = "ordinal",
+            -- numbers = "ordinal",
             -- close_command = "bdelete! %d",       -- can be a string | function, | false see "Mouse actions"
             -- right_mouse_command = "bdelete! %d", -- can be a string | function | false, see "Mouse actions"
             -- left_mouse_command = "buffer %d",    -- can be a string | function, | false see "Mouse actions"
@@ -73,7 +73,7 @@ return {
             -- show_close_icon = true | false,
             -- show_tab_indicators = true | false,
             -- show_duplicate_prefix = true | false, -- whether to show duplicate buffer prefix
-            persist_buffer_sort = false, -- whether or not custom sorted buffers should persist
+            -- persist_buffer_sort = false, -- whether or not custom sorted buffers should persist
             -- move_wraps_at_ends = false, -- whether or not the move command "wraps" at the first or last position
             -- -- can also be a table containing 2 custom separators
             -- -- [focused and unfocused]. eg: { '|', '|' }

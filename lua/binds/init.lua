@@ -18,6 +18,8 @@ vim.o.relativenumber = true
 -- o       Automatically insert the current comment leader after hitting 'o' or 'O' in Normal mode.
 -- someone must override this???
 vim.o.formatoptions = vim.o.formatoptions:gsub("r", ""):gsub("o", "")
+vim.cmd('autocmd BufEnter * set formatoptions-=cro')
+vim.cmd('autocmd BufEnter * setlocal formatoptions-=cro')
 
 
 -- hilight current word
@@ -28,27 +30,54 @@ vim.keymap.set('n', '<M-d>', '<C-d>', { })
 
 
 -- Windows --------------------------------------------------------------------
-win_prefix = '<leader>w'
+local win_prefix = '<leader>w'
 
 vim.o.splitright = true
 vim.o.splitbelow = true
 
 vim.keymap.set('n', win_prefix         , '<C-w>'              , { })
-vim.keymap.set('n', win_prefix..'r'    , window_resize_mode   , {noremap = true, silent = true})
-vim.keymap.set('n', win_prefix..'<C-r>', window_resize_mode   , {noremap = true, silent = true})
+vim.keymap.set('n', win_prefix..'r'    , window_resize_mode   , { noremap = true, silent = true })
+vim.keymap.set('n', win_prefix..'<C-r>', window_resize_mode   , { noremap = true, silent = true })
 vim.keymap.set('n', win_prefix..'v'    , ':vertical new<CR>'  , { })
 vim.keymap.set('n', win_prefix..'s'    , ':horizontal new<CR>', { })
 
 
-vim.keymap.set('n', '<leader>pn', 
-    peak_window.create, 
+vim.keymap.set('n', '<leader>pn',
+    peak_window.create,
     { })
 
-vim.keymap.set('n', '<leader>pt', function() 
+vim.keymap.set('n', '<leader>pt', function()
     peak_window.create()
     vim.cmd(':term')
     vim.api.nvim_feedkeys('i', 't', true)
 end, { })
+
+
+-- Speer --------------------------------------------------------------------
+
+for i = 1, 9, 1 do
+    vim.keymap.set('n', '<leader>h'..tostring(i), function()
+        require("bufferline").go_to(i, true)
+    end, { noremap = true, silent = true })
+end
+
+
+-- Other --------------------------------------------------------------------
+
+local create_comman_open_help = function(name, peak)
+    vim.api.nvim_create_user_command(name, function(opts)
+        if peak then
+            peak_window.create()
+        end
+        vim.cmd.enew()
+        vim.cmd.set('buftype=help')
+        vim.cmd.help({args=opts.fargs})
+    end, {complete = 'help', nargs = 1})
+end
+
+create_comman_open_help('H' , false)
+create_comman_open_help('HP', true)
+
 
 
 

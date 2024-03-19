@@ -38,7 +38,7 @@ end
 
 M.sort_refs = function ()
     table.sort(M.file_refs, function(left, right)
-        return left.count < right.count
+        return left.count > right.count
     end)
 end
 
@@ -65,13 +65,11 @@ M.on_buff_delete = function()
     local buf = vim.api.nvim_win_get_buf(0)
     local file = vim.api.nvim_buf_get_name(buf)
 
-    print("delte fuffer ", file)
     M.remove_ref(file)
 end
 
 
 M.setup = function(config)
-    print("setup here")
     require("bufferline").setup(M.create_bufferline_config(config.bufferline))
 
     local GROUP_NAME = "Speer"
@@ -87,13 +85,17 @@ M.create_bufferline_config = function(config)
         config = {}
     end
 
+    config.show_buffer_close_icons = false
+    config.persist_buffer_sort = false
+
     config.custom_filter = function(buf_number, _)
         local file = vim.api.nvim_buf_get_name(buf_number)
-
-        local _, ref = M.get_ref(file)
+        local i, ref = M.get_ref(file)
         if ref.count == 0 then
-            return
-        end
+            return false end
+
+        if i > 9 then
+            return false end
 
         return true
     end
@@ -104,9 +106,14 @@ M.create_bufferline_config = function(config)
         return refa.count > refb.count
     end
 
+    config.numbers = function(tab)
+        local file = vim.api.nvim_buf_get_name(tab.id)
+        local i, _ = M.get_ref(file)
+        -- return tostring(tab.raise(i))
+        return tostring(i)
+    end
+
     return { options = config }
 end
-
---M.setup({})
 
 return M
