@@ -1,6 +1,8 @@
 ## Editor
-### Project management
+### Workspace 
+https://github.com/natecraddock/workspaces.nvim
 https://github.com/coffebar/neovim-project
+https://github.com/Shatur/neovim-session-manager
 
 ### Project wide search and replace
 https://github.com/nvim-pack/nvim-spectre
