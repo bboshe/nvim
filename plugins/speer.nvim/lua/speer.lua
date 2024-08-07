@@ -44,8 +44,13 @@ end
 
 
 M.buf_filter = function(buf, file)
-    return buf ~= nil and file ~= ""
-    -- TODO fiiler non files
+    if buf  == nil then return false end
+    if file == ""  then return false end
+
+    local buftype = vim.api.nvim_buf_get_option(buf, 'buftype')
+    if buftype ~= "" then return false end
+
+    return true
 end
 
 
@@ -57,8 +62,6 @@ M.on_buff_enter = function()
     end
 
     M.add_ref(file)
-
-    -- M.print_ref_count()
 end
 
 M.on_buff_delete = function()
@@ -77,6 +80,10 @@ M.setup = function(config)
     vim.api.nvim_create_autocmd("BufEnter"  , { group = GROUP_NAME, callback = M.on_buff_enter  })
     vim.api.nvim_create_autocmd("BufDelete" , { group = GROUP_NAME, callback = M.on_buff_delete })
 
+    vim.api.nvim_create_user_command('SpeerList',
+        function(opts)
+            M.print_ref_count()
+        end, {})
 end
 
 
@@ -92,10 +99,11 @@ M.create_bufferline_config = function(config)
         local file = vim.api.nvim_buf_get_name(buf_number)
         local i, ref = M.get_ref(file)
         if ref.count == 0 then
-            return false end
+            return false
+        end
 
-        if i > 9 then
-            return false end
+        -- if i > 9 then
+        --     return false end
 
         return true
     end
@@ -103,14 +111,15 @@ M.create_bufferline_config = function(config)
     config.sort_by = function(buffer_a, buffer_b)
         local _, refa = M.get_ref(buffer_a.path)
         local _, refb = M.get_ref(buffer_b.path)
-        return refa.count > refb.count
+        return refa.count >= refb.count
     end
 
     config.numbers = function(tab)
-        local file = vim.api.nvim_buf_get_name(tab.id)
-        local i, _ = M.get_ref(file)
+        -- local file = vim.api.nvim_buf_get_name(tab.id)
+        -- local i, _ = M.get_ref(file)
         -- return tostring(tab.raise(i))
-        return tostring(i)
+        -- return tostring(i)
+        return tab.ordinal
     end
 
     return { options = config }
