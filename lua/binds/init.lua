@@ -53,15 +53,6 @@ vim.keymap.set('n', '<leader>pt', function()
 end, { })
 
 
--- Speer --------------------------------------------------------------------
-
-for i = 1, 9, 1 do
-    vim.keymap.set('n', '<leader>h'..tostring(i), function()
-        require("bufferline").go_to(i, true)
-    end, { noremap = true, silent = true })
-end
-
-
 -- Other --------------------------------------------------------------------
 
 local create_comman_open_help = function(name, peak)

@@ -36,7 +36,7 @@ return {
         {text = " ", texthl = "DiagnosticSignInfo"})
       vim.fn.sign_define("DiagnosticSignHint",
         {text = "󰌵", texthl = "DiagnosticSignHint"})
- 
+
       require("neo-tree").setup({
         close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
         popup_border_style = "rounded",
@@ -309,6 +309,29 @@ return {
       })
 
       vim.keymap.set('n', '<leader>E' , ':Neotree<CR> current', { })
-      vim.keymap.set('n', '<leader>e', ':Neotree float<CR>', { })
+
+      vim.keymap.set('n', '<leader>e', function()
+        local reveal_file = vim.fn.expand('%:p')
+        if (reveal_file == '') then
+          reveal_file = vim.fn.getcwd()
+        else
+          local f = io.open(reveal_file, "r")
+          if (f) then
+            f.close(f)
+          else
+            reveal_file = vim.fn.getcwd()
+          end
+        end
+        require('neo-tree.command').execute({
+          action = "focus",
+          source = "filesystem",
+          position = "float",
+          dir = vim.fn.getcwd(),
+          reveal = true,
+        })
+        end,
+        {}
+      )
+
     end
 }
