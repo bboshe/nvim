@@ -72,6 +72,9 @@ create_comman_open_help('H' , false)
 create_comman_open_help('HP', true)
 
 
+require("binds.misc").setup()
+
+
 
 
 

@@ -4,6 +4,7 @@ local launch_picker = require("workspace.picker")
 WorkspaceManager = {}
 WorkspaceManager.show_picker = true
 WorkspaceManager.auto_load = false
+WorkspaceManager.auto_save = true
 
 function WorkspaceManager.get_workspace_dir ()
     return vim.fn.getcwd()
@@ -49,7 +50,9 @@ function WorkspaceManager.on_vim_enter()
     end
 end
 
+
 function WorkspaceManager.setup ()
+
     local GROUP_NAME = "Workspace"
     vim.api.nvim_create_augroup(GROUP_NAME, { clear = true })
     vim.api.nvim_create_autocmd("VimEnter", { group = GROUP_NAME, callback = WorkspaceManager.on_vim_enter })
@@ -57,7 +60,6 @@ function WorkspaceManager.setup ()
     vim.api.nvim_create_user_command('WorkspaceSave'  , WorkspaceManager.save_workspace,   {})
     vim.api.nvim_create_user_command("WorkspaceSelect", WorkspaceManager.select_workspace, {})
     vim.api.nvim_create_user_command("WorkspaceReload", WorkspaceManager.reload_workspace, {})
-    vim.api.nvim_create_user_command("WorkspaceExit"  , function (_) end,   {})
 end
 
 return WorkspaceManager
