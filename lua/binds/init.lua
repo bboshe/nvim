@@ -1,7 +1,5 @@
 require("binds.window")
 
--- require("binds.oil").setup()
-
 vim.g.mapleader = " "
 
 -- Editor ---------------------------------------------------------------------

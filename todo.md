@@ -19,10 +19,6 @@ https://www.reddit.com/r/neovim/comments/150g7rl/is_there_a_way_to_add_harpoon_m
 * comment expand enter bug
 
 
-## File
-oil.vim
-https://www.youtube.com/watch?v=gihHLsClHF0
-
 ## Git
 https://www.youtube.com/watch?v=IyBAuDPzdFY
 https://www.youtube.com/watch?v=ZgyVY7tArwg
