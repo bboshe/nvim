@@ -1,7 +1,14 @@
 local windows = require('windows.windows')
 
 local float = { 
-  line_numbers = true
+  window = {
+    file = {
+      line_numbers = true,
+      relative_numbers = true,
+      width  = { rel = 0.8, min = 80, max = 120 },
+      height = { rel = 0.9, min = 30, max = 999 },
+    }
+  }
 }
 
 function float.calc_window_size(screen, cfg)
@@ -48,22 +55,19 @@ function float.close()
   end
 end
 
-function float.open_empty(opts)
-  local buf = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
-
-  local win_opts = float.configure_window(opts)
-  window_handle = vim.api.nvim_open_win(buf, true, win_opts)
-end
-
 function float.open_file(path, opts)
+  local temp_buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_option(temp_buf, "bufhidden", "wipe")
+
+  opts = vim.tbl_deep_extend('keep', opts, float.window.file)
   local win_opts = float.configure_window(opts)
   win_opts.title = "[File] " .. float.format_file_name(path)
-  win_handle = vim.api.nvim_open_win(0, true, win_opts)
+  local win_handle = vim.api.nvim_open_win(temp_buf, true, win_opts)
 
-  vim.cmd("edit " .. path)
+  pcall(vim.cmd, "edit " .. path)
 
-  vim.api.nvim_win_set_option(win_handle, "number", float.line_numbers)
+  vim.api.nvim_win_set_option(win_handle, "number", float.window.file.line_numbers)
+  vim.api.nvim_win_set_option(win_handle, "relativenumber", float.window.file.relative_numbers)
 end
 
 return float

@@ -34,8 +34,8 @@ end
 function util.expand_node_float()
     util.expand_node(function(node) 
       float.open_file(node.absolute_path, {
-        width  = { rel = 0.8, min = 80, max = 120 },
-        height = { rel = 0.9, min = 30, max = 999 }
+--        width  = { rel = 0.8, min = 80, max = 120 },
+--        height = { rel = 0.9, min = 30, max = 999 }
       })
     end)
 end

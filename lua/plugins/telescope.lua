@@ -4,11 +4,37 @@ return {
         branch = '0.1.x',
         dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
-            require("binds.file").telescope.setup()
-            require("binds.buffer").telescope.setup()
+          require("binds.file").telescope.setup()
+          require("binds.buffer").telescope.setup()
+          local builtin = require("telescope.builtin")
+          local actions = require("telescope.actions")
+          local action_state = require("telescope.actions.state")
+          local float = require("windows.float")
 
-            local builtin = require("telescope.builtin")
-            vim.keymap.set('n', '<leader>fh', builtin.help_tags , {})
+          local peek_file = function(opts) 
+            local entry = action_state.get_selected_entry()
+            float.open_file(entry[1], { })
+          end
+          
+            
+          require("telescope").setup
+          {
+            pickers = { 
+              find_files = {
+              mappings = { 
+              n = {
+                 ["<CR>"] = peek_file,
+                 ["<leader><CR>"] = actions.select_default
+                }, 
+              i = {
+                ["<CR>"] = peek_file,
+              },
+             }, 
+            }
+            }
+          }
+            
+          vim.keymap.set('n', '<leader>fh', builtin.help_tags , {})
         end
     },
     {

@@ -24,7 +24,7 @@ return {
       add_keymap('<ESC>' , api.tree.close,          'Close')
       add_keymap("l"     , util.expand_node_float,  "Edit Or Peak")
       add_keymap("<CR>"  , util.expand_node_float,  "Edit Or Peak")
-      add_keymap("L"     , util.expand_node_window, "Edit Or Open")
+      add_keymap("<leader><CR>"   , util.expand_node_window, "Edit Or Open")
       add_keymap("h"     , util.close_node,         "Close Directory")
       add_keymap("H"     , api.tree.collapse_all,   "Collapse All")
     end,
