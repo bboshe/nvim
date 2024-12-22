@@ -26,7 +26,6 @@ https://www.reddit.com/r/neovim/comments/150g7rl/is_there_a_way_to_add_harpoon_m
 * fix render issue when opening -> add redraw
 
 ## Telescope
-* open buffers in normal mode
 * --delete buffers via the buffer view--
 
 ## Buffers

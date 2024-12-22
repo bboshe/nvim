@@ -68,6 +68,9 @@ function float.open_file(path, opts)
 
   vim.api.nvim_win_set_option(win_handle, "number", float.window.file.line_numbers)
   vim.api.nvim_win_set_option(win_handle, "relativenumber", float.window.file.relative_numbers)
+
+  -- hacky way to ensure normal mode
+  vim.api.nvim_feedkeys('\x1B', 'n', false)
 end
 
 return float
