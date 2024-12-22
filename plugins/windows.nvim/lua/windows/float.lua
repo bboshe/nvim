@@ -1,4 +1,5 @@
 local windows = require('windows.windows')
+local buffers = require('buffers')
 
 local float = { 
   window = {
@@ -55,21 +56,37 @@ function float.close()
   end
 end
 
-function float.open_file(path, opts)
-  local temp_buf = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_buf_set_option(temp_buf, "bufhidden", "wipe")
+
+function float.open(opts)
+  local buf_handle
+  if opts.buffer ~= nil then
+    buf_handle = opts.buffer
+  elseif opts.path ~= nil then
+    buf_handle = buffers.find_by_path(opts.path) 
+    if buf_handle == nil then
+        buf_handle = vim.api.nvim_create_buf(false, true)
+    end
+  else
+    error("no target")
+  end
+
+  if buf_handle ~= float.last_buffer then
+    float.delete_buffer(float.last_buffer)
+  end
 
   opts = vim.tbl_deep_extend('keep', opts, float.window.file)
   local win_opts = float.configure_window(opts)
-  win_opts.title = "[File] " .. float.format_file_name(path)
-  local win_handle = vim.api.nvim_open_win(temp_buf, true, win_opts)
+  win_opts.title = opts.tilte
+  local win_handle = vim.api.nvim_open_win(buf_handle, true, win_opts)
 
-  pcall(vim.cmd, "edit " .. path)
+  opts.load(win_handle)
+
+  local buf_handle = vim.api.nvim_win_get_buf(win_handle)
+  float.last_buffer = buf_handle
 
   vim.api.nvim_win_set_option(win_handle, "number", float.window.file.line_numbers)
   vim.api.nvim_win_set_option(win_handle, "relativenumber", float.window.file.relative_numbers)
 
-  local buf_handle = vim.api.nvim_win_get_buf(win_handle)
   vim.keymap.set('n', '<ESC>', '', { buffer=buf_handle })
   vim.keymap.set('n', '<ESC><ESC>', function() 
     vim.api.nvim_win_close(win_handle, false)
@@ -78,5 +95,29 @@ function float.open_file(path, opts)
   -- hacky way to ensure normal mode
   vim.api.nvim_feedkeys('\x1B', 'n', false)
 end
+
+function float.open_file(path, opts)
+  float.open(vim.tbl_deep_extend('force', {
+      path = path,
+      title = "[File] " .. float.format_file_name(path),
+      load = function(win_handle) 
+        pcall(vim.cmd, "edit " .. path)
+      end
+    }, opts or {}))
+end
+
+function float.delete_buffer(buf)
+    if buf == nil or not vim.api.nvim_buf_is_valid(buf) then
+        return
+    end
+    if not vim.api.nvim_buf_get_option(buf, 'modified') then
+        vim.api.nvim_buf_delete(buf, { force=false })
+    else
+        float.open({ buffer = buf })
+        vim.cmd("bd")
+    end
+
+end
+
 
 return float

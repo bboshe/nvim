@@ -31,10 +31,8 @@ https://www.reddit.com/r/neovim/comments/150g7rl/is_there_a_way_to_add_harpoon_m
 ## Buffers
 
 ## Windows
-* close last float if new float opens
 * hotkey to reopen last float window with buffer
 * cursor moves in original file after float window opens
-* delte float buffers on close, except the previous one
 
 ## Git
 https://www.youtube.com/watch?v=K-FKqXj8BAQ
