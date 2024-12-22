@@ -79,18 +79,26 @@ function float.open(opts)
   win_opts.title = opts.tilte
   local win_handle = vim.api.nvim_open_win(buf_handle, true, win_opts)
 
-  opts.load(win_handle)
+  if opts.load ~= nil then
+    opts.load(win_handle)
+  end
 
   local buf_handle = vim.api.nvim_win_get_buf(win_handle)
   float.last_buffer = buf_handle
 
-  vim.api.nvim_win_set_option(win_handle, "number", float.window.file.line_numbers)
-  vim.api.nvim_win_set_option(win_handle, "relativenumber", float.window.file.relative_numbers)
+  vim.api.nvim_win_set_option(
+        win_handle, "number", float.window.file.line_numbers)
+  vim.api.nvim_win_set_option(
+        win_handle, "relativenumber", float.window.file.relative_numbers)
 
-  vim.keymap.set('n', '<ESC>', '', { buffer=buf_handle })
-  vim.keymap.set('n', '<ESC><ESC>', function() 
-    vim.api.nvim_win_close(win_handle, false)
-  end, { buffer=buf_handle })
+  local function close_float()
+    if win_handle == vim.api.nvim_get_current_win() then
+        vim.api.nvim_win_close(win_handle, false)
+    end
+  end
+  vim.keymap.set('n', '<ESC>'     , ''         , { buffer=buf_handle })
+  vim.keymap.set('n', '<ESC><ESC>', close_float, { buffer=buf_handle })
+  vim.keymap.set('n', ' <ESC>'    , close_float, { buffer=buf_handle })
   
   -- hacky way to ensure normal mode
   vim.api.nvim_feedkeys('\x1B', 'n', false)
@@ -106,6 +114,12 @@ function float.open_file(path, opts)
     }, opts or {}))
 end
 
+function float.reopen() 
+  if float.last_buffer ~= nil then
+    float.open({ buffer = float.last_buffer  })
+  end
+end
+
 function float.delete_buffer(buf)
     if buf == nil or not vim.api.nvim_buf_is_valid(buf) then
         return
@@ -116,7 +130,6 @@ function float.delete_buffer(buf)
         float.open({ buffer = buf })
         vim.cmd("bd")
     end
-
 end
 
 

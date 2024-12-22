@@ -6,7 +6,9 @@ return {
 
         windows.setup({})
 
-        vim.keymap.set('n', '<ESC>', windows.float.close, { })
+        vim.keymap.set('n', ' <ESC>', windows.float.reopen, { })
+        -- vim.keymap.set('n', '<ESC>', windows.float.close, { })
+
     end
 }
 
