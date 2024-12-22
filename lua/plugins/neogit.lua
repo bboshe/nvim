@@ -1,3 +1,12 @@
+local function encode(str) 
+    return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local function toggle()
+    vim.api.nvim_feedkeys(encode("<tab>"), 'm', false)
+end
+
+
 return {
       "NeogitOrg/neogit",
       dependencies = {
@@ -5,5 +14,20 @@ return {
             "sindrets/diffview.nvim",        -- optional - Diff integration
             "nvim-telescope/telescope.nvim", -- optional
           },
-      config = true
+      config = function()
+        require("neogit").setup({
+
+        mappings = {
+            popup = {
+                ["l"] = false,
+                ["L"] = "LogPopup",
+            },
+            status = {
+                ["l"] = toggle,
+                ["h"] = toggle,
+            },
+        },
+      }
+        )
+        end
     }
