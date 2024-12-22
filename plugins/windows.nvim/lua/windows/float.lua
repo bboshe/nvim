@@ -69,6 +69,12 @@ function float.open_file(path, opts)
   vim.api.nvim_win_set_option(win_handle, "number", float.window.file.line_numbers)
   vim.api.nvim_win_set_option(win_handle, "relativenumber", float.window.file.relative_numbers)
 
+  local buf_handle = vim.api.nvim_win_get_buf(win_handle)
+  vim.keymap.set('n', '<ESC>', '', { buffer=buf_handle })
+  vim.keymap.set('n', '<ESC><ESC>', function() 
+    vim.api.nvim_win_close(win_handle, false)
+  end, { buffer=buf_handle })
+  
   -- hacky way to ensure normal mode
   vim.api.nvim_feedkeys('\x1B', 'n', false)
 end
