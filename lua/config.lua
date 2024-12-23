@@ -1,5 +1,33 @@
 return {
-    buffer = {
+    telescope = {
+        keys = {
+            launch_find     = '<leader>ff',
+            launch_grep     = '<leader>fg',
+            launch_buffers  = '<leader>fb',
+            launch_help     = '<leader>fh',
+            edit            = '<TAB>',
+            edit_float      = '<CR>',
+        },
+    },
+    nvimtree = {
+        float = {
+           width   = { rel = 0.5, min = 60, max = 200 },
+           height  = { rel = 0.7, min = 10, max = 999 },
+        },
+        keys = {
+            launch_float   = '<leader>e',
+            close          = '<ESC>',
+            expand         = 'l',
+            collapse       = 'h',
+            collapse_all   = 'H',
+            edit           = 'L',
+            edit_alt       = '<TAB>',
+            edit_float     = 'l',
+            edit_float_alt = '<CR>',
+            help           = '?',
+        },
+    },
+    barbar = {
         keys = {
             leader     = 'd', -- prefix for all buffer operations
             mode       = 'd', -- enter buffer navigation mode
@@ -15,6 +43,6 @@ return {
             close      = 'c',
             pin        = 'p',
             restore    = 'r',
-        }
-    }
+        },
+    },
 }

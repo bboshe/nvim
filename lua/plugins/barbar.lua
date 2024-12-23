@@ -1,8 +1,7 @@
 return {
     'romgrk/barbar.nvim',
     dependencies = {
-        'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
-        'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+        -- 'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
     },
     init = function() 
         vim.g.barbar_auto_setup = false 
@@ -10,14 +9,16 @@ return {
     opts = {
         animation = false,
         focus_on_close = 'previous',
-        insert_at_start = true,
+        insert_at_start = false,
+        insert_at_end = true,
+        hide = {},
     },
     config = function(_, opts)
         -- Setup -----------------------------------------------------
         require('barbar').setup(opts)
 
         -- Keymaps ---------------------------------------------------
-        local keys = require('config').buffer.keys
+        local keys = require('config').barbar.keys
 
         local function keymap(key, cmd)
             vim.keymap.set(
