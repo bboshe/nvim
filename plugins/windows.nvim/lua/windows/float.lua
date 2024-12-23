@@ -124,6 +124,9 @@ function float.delete_buffer(buf)
     if buf == nil or not vim.api.nvim_buf_is_valid(buf) then
         return
     end
+    if not vim.api.nvim_buf_get_option(buf, 'hidden') then 
+        return
+    end
     if not vim.api.nvim_buf_get_option(buf, 'modified') then
         vim.api.nvim_buf_delete(buf, { force=false })
     else
