@@ -1,5 +1,5 @@
 local windows = require('windows.windows')
-local buffers = require('buffers')
+local buffers = require('buffers.func')
 
 local float = { 
   window = {
@@ -124,7 +124,7 @@ function float.delete_buffer(buf)
     if buf == nil or not vim.api.nvim_buf_is_valid(buf) then
         return
     end
-    if not vim.api.nvim_buf_get_option(buf, 'hidden') then 
+    if buffers.is_active(buf) then 
         return
     end
     if not vim.api.nvim_buf_get_option(buf, 'modified') then
