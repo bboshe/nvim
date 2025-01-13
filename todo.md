@@ -17,11 +17,13 @@ https://github.com/nvim-pack/nvim-spectre
 ### Buffers
 * auto delete empty file buffers
 
+### LSP
+* optimize diagnostic visualizations 
+
 ### Navigation
 https://github.com/smoka7/hop.nvim
 
 ### Help
 https://github.com/m4xshen/hardtime.nvim
-
 
 
