@@ -1,18 +1,18 @@
 return {
     telescope = {
         keys = {
-            launch_find     = '<leader>ff',
-            launch_grep     = '<leader>fg',
-            launch_buffers  = '<leader>fb',
-            launch_help     = '<leader>fh',
-            edit            = '<TAB>',
-            edit_float      = '<CR>',
+            launch_find    = '<leader>ff',
+            launch_grep    = '<leader>fg',
+            launch_buffers = '<leader>fb',
+            launch_help    = '<leader>fh',
+            edit           = '<TAB>',
+            edit_float     = '<CR>',
         },
     },
     nvimtree = {
         float = {
-           width   = { rel = 0.5, min = 60, max = 200 },
-           height  = { rel = 0.7, min = 10, max = 999 },
+            width  = { rel = 0.5, min = 60, max = 200 },
+            height = { rel = 0.7, min = 10, max = 999 },
         },
         keys = {
             launch_float   = '<leader>e',
@@ -43,6 +43,44 @@ return {
             close      = 'c',
             pin        = 'p',
             restore    = 'r',
+        },
+    },
+    language = {
+        keys = {
+            code_action = '<C-.>',
+            format = '<leader>lf',
+        },
+        pylsp = {
+            plugins = {
+                pycodestyle = {
+                    maxLineLength = 200,
+                },
+            }
+        },
+        lua_ls = {
+            runtime = {
+                version = "LuaJIT",
+                path = vim.split(package.path, ";"),
+            },
+            diagnostics = {
+                globals = { "vim" },
+            },
+            workspace = {
+                library = { vim.env.VIMRUNTIME },
+                checkThirdParty = false,
+            },
+            telemetry = {
+                enable = false,
+            },
+
+        }
+    },
+    autocmp = {
+        keys = {
+            trigger   = '<C-,',
+            confirm   = '<CR>',
+            docs_up   = '<PageUp>',
+            docs_down = '<PageDown>',
         },
     },
 }
